@@ -76,5 +76,20 @@ input {
 .results {
   margin: 0 auto;
   margin-top: 20px;
-  width: 30%;
+  width: 60%;
+  color: #c5c5c5;
+}
+
+.border-active {
+  border-top: 2px solid #c5c5c5;
+  margin: 40px;
+}
+
+.border-none {
+  border: none;
+}
+
+.results h3{
+  padding: 15px;
+  font-size: 25px;
 }
