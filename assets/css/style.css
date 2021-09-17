@@ -19,7 +19,7 @@ header {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  width: 80em;
+  width: 70em;
   padding: 7em;
 }
 
@@ -44,7 +44,7 @@ input {
   justify-content: space-between;
   margin: 0 auto;
   margin-top: 10px;
-  width: 20%;
+  width: 25%;
 }
 
 .submit-btn {
@@ -59,7 +59,7 @@ input {
 
 .question-container {
   text-align: center;
-  width: 70em;
+  width: 50em;
   margin: 0 auto;
 }
 
@@ -91,5 +91,5 @@ input {
 
 .results h3{
   padding: 15px;
-  font-size: 25px;
+  font-size: 40px;
 }
