@@ -1,7 +1,8 @@
-var startButton = document.querySelector("#start-quiz");
+var quiz = document.getElementById("quiz");
+var startButton = document.getElementById("start-quiz");
 
 function buildQuiz() {
-  alert("This works!")
+ 
 }
 
 startButton.addEventListener("click", buildQuiz);

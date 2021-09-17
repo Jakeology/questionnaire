@@ -57,19 +57,20 @@ input {
   margin: 10px;
 }
 
-.question-container {
+.container {
   text-align: center;
   width: 50em;
   margin: 0 auto;
 }
 
-.question-container h1 {
-  font-size: 54px;
+.primary-title h1 {
+  font-size: 72px;
   padding-bottom: 30px;
   font-weight: bold;
 }
 
-.quiz-info h2 {
+.info p {
+  font-size: 24px;
   margin-bottom: 30px;
 }
 
