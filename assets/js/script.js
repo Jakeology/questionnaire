@@ -1,4 +1,4 @@
-var startButton = document.getElementById("start-quiz");
+var mainContainer = document.getElementById("quiz-container");
 var questionContainer = document.getElementById("question-container");
 
 var questionIndex = 0;
@@ -61,6 +61,14 @@ function clearContainer(containerIdName) {
   }
 }
 
+function buttonClick(event) {
+  var targetEl = event.target;
+
+  if (targetEl.matches("#start-quiz")) {
+    return buildQuiz();
+  }
+}
+
 var questionData = [
   {
     question: "Question 1",
@@ -88,4 +96,4 @@ var questionData = [
   },
 ];
 
-startButton.addEventListener("click", buildQuiz);
+mainContainer.addEventListener("click", buttonClick);
