@@ -1,17 +1,23 @@
 var startButton = document.getElementById("start-quiz");
 
 function buildQuiz() {
-  clearInfoContainer();
-
+  clearContainer("info");
+  
 }
 
-function clearInfoContainer() {
-  var infoContainer = document.getElementById("info-container");
+function clearContainer(containerIdName) {
+  var container = document.getElementById(containerIdName + "-container");
+  switch (containerIdName) {
+    case "info":
+      container.innerHTML = "";
 
-  infoContainer.innerHTML = "";
-
-  infoContainer.className = "";
-  infoContainer.id = "answers-container";
+      container.className = "";
+      container.id = "answers-container";
+      break;
+    case "answers":
+      container.innerHTML = "";
+      break;
+  }
 }
 
 startButton.addEventListener("click", buildQuiz);
