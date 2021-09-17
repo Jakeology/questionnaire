@@ -1,8 +1,24 @@
 var startButton = document.getElementById("start-quiz");
+var questionContainer = document.getElementById("question-container");
+
+var questionIndex = 0;
 
 function buildQuiz() {
+  //clearing info section when starting quiz
   clearContainer("info");
+  //clearing question section when starting quiz
+  clearContainer("question");
 
+  var questionContainerEl = document.createElement("h1");
+  questionContainerEl.textContent = getRandomQuestion();
+
+  questionContainer.appendChild(questionContainerEl);
+  
+}
+
+function getRandomQuestion() {
+  questionIndex = Math.floor(Math.random() * questionData.length);
+  return questionData[questionIndex].question;
 }
 
 function clearContainer(containerIdName) {
@@ -15,6 +31,9 @@ function clearContainer(containerIdName) {
       container.id = "answers-container";
       break;
     case "answers":
+      container.innerHTML = "";
+      break;
+    case "question":
       container.innerHTML = "";
       break;
   }
