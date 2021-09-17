@@ -13,6 +13,18 @@ function buildQuiz() {
   questionContainerEl.textContent = getRandomQuestion();
 
   questionContainer.appendChild(questionContainerEl);
+
+  var answers = getAnswers();
+
+  var answersContainer = document.getElementById("answers-container");
+
+  for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
+    var createButton = document.createElement("button");
+    createButton.className = "btn";
+    createButton.id = "answerBtn";
+    createButton.textContent = answers[i];
+    answersContainer.appendChild(createButton);
+  }
   
 }
 
@@ -21,13 +33,23 @@ function getRandomQuestion() {
   return questionData[questionIndex].question;
 }
 
+function getAnswers() {
+  var answers = [];
+
+  for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
+    answers.push(questionData[questionIndex].answers[i]);
+  }
+
+  return answers;
+}
+
 function clearContainer(containerIdName) {
   var container = document.getElementById(containerIdName + "-container");
   switch (containerIdName) {
     case "info":
       container.innerHTML = "";
 
-      container.className = "";
+      container.className = "answers";
       container.id = "answers-container";
       break;
     case "answers":
