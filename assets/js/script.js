@@ -213,6 +213,7 @@ function buttonClick(event) {
       return displayResults("invalid");
     }
 
+    clearInterval(resultTimeInterval);
     var getInput = input.value;
     saveHighscore(getInput, score);
     displayHighscores();
