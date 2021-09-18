@@ -2,6 +2,8 @@ var mainContainer = document.getElementById("quiz-container");
 var questionContainer = document.getElementById("question-container");
 var resultsContainer = document.getElementById("results-container");
 
+var startButton = document.querySelector("#start-quiz");
+
 var questionIndex = 0;
 var score = 0;
 
@@ -90,6 +92,26 @@ function displayResults(displayType) {
   resultsContainer.appendChild(element);
 
   startResultClearTimer();
+}
+
+var timeLeft = 20;
+var timeInterval;
+
+function startQuizTimer() {
+
+  var getTimerEl = document.querySelector("#timer");
+  getTimerEl.textContent = "Time: " + timeLeft;
+
+  timeInterval = setInterval(function () {
+    if (timeLeft < 1) {
+      clearInterval(timeInterval);
+      return endQuiz();
+    }
+    
+    timeLeft--;
+    getTimerEl.textContent = "Time: " + timeLeft;
+
+  }, 1000);
 }
 
 var resultTimeInterval;
@@ -182,4 +204,5 @@ var questionData = [
   },
 ];
 
+startButton.onclick = startQuizTimer;
 mainContainer.addEventListener("click", buttonClick);
