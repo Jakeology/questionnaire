@@ -7,6 +7,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
   font-family: "Varela Round", Sans-serif;
   font-weight: normal;
 }
@@ -19,7 +20,8 @@ header {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  width: 70em;
+  width: 60%;
+  flex-wrap: wrap;
   padding: 7em;
 }
 
@@ -44,7 +46,7 @@ input {
   justify-content: space-between;
   margin: 0 auto;
   margin-top: 10px;
-  width: 25%;
+  width: 7em;
 }
 
 .submit-btn {
@@ -59,7 +61,7 @@ input {
 
 .container {
   text-align: center;
-  width: 50em;
+  width: 50%;
   margin: 0 auto;
 }
 
@@ -67,6 +69,12 @@ input {
   font-size: 72px;
   padding-bottom: 30px;
   font-weight: bold;
+}
+
+.questions h2 {
+  font-size: 36px;
+  padding-bottom: 30px;
+  font-weight: lighter;
 }
 
 .info p {

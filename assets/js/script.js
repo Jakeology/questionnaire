@@ -17,7 +17,7 @@ function buildQuiz() {
 
   questionContainer.appendChild(questionContainerEl);
 
-  var answers = getAnswers();
+  var answers = shuffleAnswers(getAnswers());
 
   var answersContainer = document.getElementById("answers-container");
 
@@ -36,12 +36,18 @@ function terminateQuiz() {
   clearContainer("answers");
 
   var questionText = document.createElement("h1");
-  questionText.textContent = "The quiz is over! Your score was " + score;
+  questionText.textContent = "The quiz is over!";
+
+  questionContainer.appendChild(questionText);
+
+  var questionText = document.createElement("h2");
+  questionText.textContent = "Your score was " + score;
 
   questionContainer.appendChild(questionText);
 
   var actionContainerEl = document.createElement("input");
   actionContainerEl.type = "text";
+  actionContainerEl.placeholder = "Enter Name";
 
   questionContainer.appendChild(actionContainerEl);
 
@@ -95,6 +101,10 @@ function displayResults(displayType) {
   resultsContainer.appendChild(element);
 
   startResultClearTimer();
+}
+
+function shuffleAnswers(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
 var timeLeft = 5;
