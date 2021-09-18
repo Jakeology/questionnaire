@@ -5,8 +5,9 @@ var resultsContainer = document.getElementById("results-container");
 var questionIndex = 0;
 
 function buildQuiz() {
-  //clearing question section when starting quiz
+  //clearing question and answers sections when starting quiz
   clearContainer("question");
+  clearContainer("answers");
 
   var questionContainerEl = document.createElement("h1");
   questionContainerEl.textContent = getRandomQuestion();
@@ -120,6 +121,8 @@ function buttonClick(event) {
     } else {
       displayResults("wrong");
     }
+
+    buildQuiz();
   }
 }
 
