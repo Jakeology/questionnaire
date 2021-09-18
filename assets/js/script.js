@@ -1,11 +1,10 @@
 var mainContainer = document.getElementById("quiz-container");
 var questionContainer = document.getElementById("question-container");
+var resultsContainer = document.getElementById("results-container");
 
 var questionIndex = 0;
 
 function buildQuiz() {
-  //clearing info section when starting quiz
-  clearContainer("info");
   //clearing question section when starting quiz
   clearContainer("question");
 
@@ -25,7 +24,6 @@ function buildQuiz() {
     createButton.textContent = answers[i];
     answersContainer.appendChild(createButton);
   }
-  
 }
 
 function getRandomQuestion() {
@@ -41,6 +39,32 @@ function getAnswers() {
   }
 
   return answers;
+}
+
+function displayResults(displayType) {
+  //check if element exist, if not create one. If it does, then overwright the existing one
+  var results = document.getElementById("results");
+  var element;
+
+  if(!results) {
+    var createH2El = document.createElement("h3");
+    createH2El.id = "results";
+    element = createH2El;
+  } else {
+    element = results;
+  }
+
+  if (displayType === "correct") {
+    element.className = "border-active";
+    element.style.color = "#48a76c";
+    element.textContent = "Correct!";
+  } else {
+    element.className = "border-active";
+    element.style.color = "#a74848";
+    element.textContent = "Wrong!";
+  }
+
+  resultsContainer.appendChild(element);
 }
 
 function clearContainer(containerIdName) {
@@ -64,8 +88,23 @@ function clearContainer(containerIdName) {
 function buttonClick(event) {
   var targetEl = event.target;
 
+  //check to see if user clicked the start quiz button
   if (targetEl.matches("#start-quiz")) {
+    //clearing info section when starting quiz
+    clearContainer("info");
     return buildQuiz();
+  }
+
+  //check to see if user clicked an answern button to a question
+  if (targetEl.matches("#answerBtn")) {
+    var getClickedAnswer = targetEl.innerHTML;
+    var getCorrectAnswer = questionData[questionIndex].answers[3];
+
+    if (getClickedAnswer === getCorrectAnswer) {
+      displayResults("correct");
+    } else {
+      displayResults("wrong");
+    }
   }
 }
 
