@@ -3,6 +3,7 @@ var questionContainer = document.getElementById("question-container");
 var resultsContainer = document.getElementById("results-container");
 
 var questionIndex = 0;
+var score = 0;
 
 function buildQuiz() {
   //clearing question and answers sections when starting quiz
@@ -25,6 +26,27 @@ function buildQuiz() {
     createButton.textContent = answers[i];
     answersContainer.appendChild(createButton);
   }
+}
+
+function terminateQuiz() {
+  //clearing question and answers sections when terminating quiz
+  clearContainer("question");
+  clearContainer("answers");
+
+  var questionText = document.createElement("h1");
+  questionText.textContent = "The quiz is over! Your score was " + score;
+
+  questionContainer.appendChild(questionText);
+
+  var actionContainerEl = document.createElement("input");
+  actionContainerEl.type = "text";
+
+  questionContainer.appendChild(actionContainerEl);
+
+  var button = document.createElement("button");
+  button.textContent = "Submit";
+  button.className = "submit-btn";
+  questionContainer.appendChild(button);
 }
 
 function getRandomQuestion() {
@@ -120,6 +142,13 @@ function buttonClick(event) {
       displayResults("correct");
     } else {
       displayResults("wrong");
+    }
+
+    //removes the questions and answers from the list so user doesn't get the same question twice.
+    questionData.splice(questionIndex, 1);
+
+    if (!questionData.length) {
+      return terminateQuiz();
     }
 
     buildQuiz();
