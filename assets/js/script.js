@@ -49,6 +49,8 @@ function terminateQuiz() {
   button.textContent = "Submit";
   button.className = "submit-btn";
   questionContainer.appendChild(button);
+
+  resetQuizTimer();
 }
 
 function getRandomQuestion() {
@@ -83,6 +85,7 @@ function displayResults(displayType) {
     element.className = "border-active";
     element.style.color = "#48a76c";
     element.textContent = "Correct!";
+    score += 7;
   } else {
     element.className = "border-active";
     element.style.color = "#a74848";
@@ -113,6 +116,12 @@ function startQuizTimer() {
     }
 
   }, 1000);
+}
+
+function resetQuizTimer() {
+  clearInterval(timeInterval);
+  var getTimerEl = document.querySelector("#timer");
+  getTimerEl.textContent = "Time: 0";
 }
 
 var resultTimeInterval;
