@@ -100,6 +100,7 @@ function displayResults(displayType) {
     element.textContent = "Wrong!";
   } else {
     element.style.color = "#a74848";
+    element.className = "border-none";
     element.style.fontSize = "20px"
     element.textContent = "Please enter a name.";
   }
@@ -208,7 +209,7 @@ function buttonClick(event) {
 
     if(!input.value) {
       input.style.borderColor = "#a74848";
-      displayResults("invalid");
+      return displayResults("invalid");
     }
 
     var getInput = input.value;
