@@ -2,7 +2,7 @@ var mainContainer = document.getElementById("quiz-container");
 var questionContainer = document.getElementById("question-container");
 var resultsContainer = document.getElementById("results-container");
 
-var startButton = document.querySelector("#start-quiz");
+var startButton = document.querySelector("#start-btn");
 
 var questionIndex = 0;
 var score = 0;
@@ -24,7 +24,7 @@ function buildQuiz() {
   for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
     var createButton = document.createElement("button");
     createButton.className = "btn";
-    createButton.id = "answerBtn";
+    createButton.id = "answer-btn";
     createButton.textContent = answers[i];
     answersContainer.appendChild(createButton);
   }
@@ -45,15 +45,17 @@ function terminateQuiz() {
 
   questionContainer.appendChild(questionText);
 
-  var actionContainerEl = document.createElement("input");
-  actionContainerEl.type = "text";
-  actionContainerEl.placeholder = "Enter Name";
+  var inputEl = document.createElement("input");
+  inputEl.type = "text";
+  inputEl.placeholder = "Enter Name";
+  inputEl.id = "input";
 
-  questionContainer.appendChild(actionContainerEl);
+  questionContainer.appendChild(inputEl);
 
   var button = document.createElement("button");
   button.textContent = "Submit";
   button.className = "submit-btn";
+  button.id = "submit-btn";
   questionContainer.appendChild(button);
 
   resetQuizTimer();
@@ -92,10 +94,14 @@ function displayResults(displayType) {
     element.style.color = "#48a76c";
     element.textContent = "Correct!";
     score += 7;
-  } else {
+  } else if (displayType === "wrong") {
     element.className = "border-active";
     element.style.color = "#a74848";
     element.textContent = "Wrong!";
+  } else {
+    element.style.color = "#a74848";
+    element.style.fontSize = "20px"
+    element.textContent = "Please enter a name.";
   }
 
   resultsContainer.appendChild(element);
@@ -169,14 +175,14 @@ function buttonClick(event) {
   var targetEl = event.target;
 
   //check to see if user clicked the start quiz button
-  if (targetEl.matches("#start-quiz")) {
+  if (targetEl.matches("#start-btn")) {
     //clearing info section when starting quiz
     clearContainer("info");
     return buildQuiz();
   }
 
   //check to see if user clicked an answern button to a question
-  if (targetEl.matches("#answerBtn")) {
+  if (targetEl.matches("#answer-btn")) {
     var getClickedAnswer = targetEl.innerHTML;
     var getCorrectAnswer = questionData[questionIndex].answers[3];
 
@@ -195,6 +201,24 @@ function buttonClick(event) {
 
     buildQuiz();
   }
+
+  if (targetEl.matches("#submit-btn")) {
+
+    var input = document.getElementById("input");
+
+    if(!input.value) {
+      input.style.borderColor = "#a74848";
+      displayResults("invalid");
+    }
+
+    var getInput = input.value;
+    saveHighscore(getInput, score);
+  }
+
+}
+
+function saveHighscore(user, score) {
+  localStorage.setItem(user, score);
 }
 
 var questionData = [
