@@ -9,10 +9,12 @@ var score = 0;
 
 var takingQuiz = false;
 
+var viewHighscores = false;
+
 function buildQuiz() {
   //clearing question and answers sections when starting quiz
-  clearContainer("question");
-  clearContainer("answers");
+  clearContainer("question-container");
+  clearContainer("answers-container");
 
   takingQuiz = true;
 
@@ -36,8 +38,8 @@ function buildQuiz() {
 
 function terminateQuiz() {
   //clearing question and answers sections when terminating quiz
-  clearContainer("question");
-  clearContainer("answers");
+  clearContainer("question-container");
+  clearContainer("answers-container");
 
   takingQuiz = false;
 
@@ -166,19 +168,23 @@ function startResultClearTimer() {
 }
 
 function clearContainer(containerIdName) {
-  var container = document.getElementById(containerIdName + "-container");
+  var container = document.getElementById(containerIdName);
 
   if(!container) {
     return;
   }
 
   switch (containerIdName) {
-    case "info":
+    case "info-container":
       container.innerHTML = "";
 
       container.className = "answers";
       container.id = "answers-container";
       break;
+    case "results":
+      container.innerHTML = "";
+
+      container.className = "border-none";
     default:
       container.innerHTML = "";
   }
@@ -190,7 +196,7 @@ function buttonClick(event) {
   //check to see if user clicked the start quiz button
   if (targetEl.matches("#start-btn")) {
     //clearing info section when starting quiz
-    clearContainer("info");
+    clearContainer("info-container");
     return buildQuiz();
   }
 
@@ -227,22 +233,40 @@ function buttonClick(event) {
     clearInterval(resultTimeInterval);
     var getInput = input.value;
     saveHighscore(getInput, score);
-    displayHighscores();
+    displayHighscores("submit");
   }
 
   if (targetEl.matches("#highscores-btn")) {
     if(takingQuiz) {
       return displayResults("You can't do that while taking the quiz.");
     }
-    displayHighscores();
+    
+    if(!viewHighscores) {
+      displayHighscores("view");
+    }
+
+  }
+
+  if (targetEl.matches("#retake-btn")) {
+    location.reload();
+  }
+
+  if (targetEl.matches("#clear-btn")) {
+    if(localStorage.length <= 0) {
+      return displayResults("You can't clear the highscores when it's already empty!");
+    }
+    localStorage.clear();
+    clearContainer("highscore-container");
   }
 
 }
 
-function displayHighscores() {
-  clearContainer("question");
-  clearContainer("info");
-  clearContainer("results");
+function displayHighscores(displayType) {
+  clearContainer("question-container");
+  clearContainer("info-container");
+  clearContainer("results-container");
+
+  viewHighscores = true;
 
   var highScores = loadHighscores();
 
@@ -282,12 +306,18 @@ function displayHighscores() {
 
   var retakeButton = document.createElement("button");
   retakeButton.className = "submit-btn";
-  retakeButton.textContent = "Retake Quiz";
+  retakeButton.id = "retake-btn";
+  if(displayType === "submit") {
+    retakeButton.textContent = "Retake Quiz";
+  } else if(displayType === "view") {
+    retakeButton.textContent = "Go back";
+  }
 
   resultsContainer.appendChild(retakeButton);
 
   var clearButton = document.createElement("button");
   clearButton.className = "submit-btn";
+  clearButton.id = "clear-btn";
   clearButton.textContent = "Clear Highscores";
 
   resultsContainer.appendChild(clearButton);
