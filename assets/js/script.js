@@ -94,7 +94,7 @@ function displayResults(displayType) {
   startResultClearTimer();
 }
 
-var timeLeft = 20;
+var timeLeft = 5;
 var timeInterval;
 
 function startQuizTimer() {
@@ -103,13 +103,14 @@ function startQuizTimer() {
   getTimerEl.textContent = "Time: " + timeLeft;
 
   timeInterval = setInterval(function () {
-    if (timeLeft < 1) {
-      clearInterval(timeInterval);
-      return endQuiz();
-    }
-    
+
     timeLeft--;
     getTimerEl.textContent = "Time: " + timeLeft;
+
+    if (timeLeft < 1) {
+      clearInterval(timeInterval);
+      return terminateQuiz();
+    }
 
   }, 1000);
 }
