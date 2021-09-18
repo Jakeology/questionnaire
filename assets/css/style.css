@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Varela Round");
 
 :root {
-  --purple: rgb(70, 19, 153);
+  --purple: #461399;
 }
 
 * {
@@ -96,6 +96,26 @@ input {
 
 .border-none {
   border: none;
+}
+
+.highscores{
+  width: 70%;
+  text-align: left;
+  justify-content: center;
+  margin: 0 auto;
+  background-color: #1900ff80;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+.highscores-border {
+  border-bottom: 1px dotted #aaaaaa;
+  padding: 10px;
+}
+
+.highscores-none {
+  padding: 10px;
 }
 
 .results h3{

@@ -20,7 +20,7 @@ function buildQuiz() {
   var answers = shuffleAnswers(getAnswers());
 
   var answersContainer = document.getElementById("answers-container");
-
+  
   for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
     var createButton = document.createElement("button");
     createButton.className = "btn";
@@ -150,6 +150,7 @@ function startResultClearTimer() {
   function results() {
 
     resultTimer--;
+    console.log(resultTimer);
 
     if (resultTimer < 0) {
       clearInterval(resultTimeInterval);
@@ -214,12 +215,76 @@ function buttonClick(event) {
 
     var getInput = input.value;
     saveHighscore(getInput, score);
+    displayHighscores();
+  }
+
+}
+
+function displayHighscores() {
+  clearContainer("question");
+  clearContainer("results");
+
+  var highScores = loadHighscores();
+
+  if(!highScores) {
+    return;
+  }
+
+  var changeAnswerEl = document.getElementById("answers-container");
+
+  changeAnswerEl.className = "highscores";
+  changeAnswerEl.id = "highscore-container";
+  
+  var questionContainerEl = document.createElement("h1");
+  questionContainerEl.textContent = "Highscores";
+  questionContainer.appendChild(questionContainerEl);
+
+  var highScoresContainer = document.getElementById("highscore-container");
+
+  var place = 1;
+
+  for(var i = 0; i < highScores.length; i++) {
+    var scoreData = document.createElement("h2");
+    var getUser = highScores[i].name;
+    var getScore = highScores[i].score;
+
+    if(place < highScores.length) {
+      scoreData.className = "highscores-border";
+    } else {
+      scoreData.className = "highscores-none";
+    }
+
+    scoreData.innerHTML = place + ". " + getUser + " - " + getScore;
+
+    highScoresContainer.appendChild(scoreData);
+    place++;
   }
 
 }
 
 function saveHighscore(user, score) {
   localStorage.setItem(user, score);
+}
+
+function loadHighscores() {
+
+  if (!localStorage) {
+    return;
+  }
+
+  var scores = [];
+
+  for(var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i)
+    var scoreDataObj = {
+      name: key,
+      score: localStorage.getItem(key),
+    };
+    scores.push(scoreDataObj);
+  }
+
+  return scores;
+
 }
 
 var questionData = [
