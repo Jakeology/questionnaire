@@ -127,7 +127,7 @@ function startQuizTimer() {
     timeLeft--;
     getTimerEl.textContent = "Time: " + timeLeft;
 
-    if (timeLeft < 1) {
+    if (timeLeft <= 0) {
       clearInterval(timeInterval);
       return terminateQuiz();
     }
@@ -152,7 +152,7 @@ function startResultClearTimer() {
     resultTimer--;
     console.log(resultTimer);
 
-    if (resultTimer < 0) {
+    if (resultTimer <= 0) {
       clearInterval(resultTimeInterval);
       clearContainer("results");
     }
@@ -259,6 +259,18 @@ function displayHighscores() {
     highScoresContainer.appendChild(scoreData);
     place++;
   }
+
+  var retakeButton = document.createElement("button");
+  retakeButton.className = "submit-btn";
+  retakeButton.textContent = "Retake Quiz";
+
+  resultsContainer.appendChild(retakeButton);
+
+  var clearButton = document.createElement("button");
+  clearButton.className = "submit-btn";
+  clearButton.textContent = "Clear Highscores";
+
+  resultsContainer.appendChild(clearButton);
 
 }
 

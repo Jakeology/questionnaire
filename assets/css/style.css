@@ -20,7 +20,7 @@ header {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  width: 60%;
+  width: 65em;
   flex-wrap: wrap;
   padding: 7em;
 }
@@ -112,6 +112,13 @@ input {
 .highscores-border {
   border-bottom: 1px dotted #aaaaaa;
   padding: 10px;
+}
+
+.view-highscores {
+  border: none;
+  font-size: 24px;
+  background-color: white;
+  color: purple;
 }
 
 .highscores-none {
