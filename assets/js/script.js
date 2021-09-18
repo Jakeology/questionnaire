@@ -65,6 +65,25 @@ function displayResults(displayType) {
   }
 
   resultsContainer.appendChild(element);
+
+  startResultClearTimer();
+}
+
+var resultTimeInterval;
+
+function startResultClearTimer() {
+  clearInterval(resultTimeInterval);
+  resultTimeInterval = setInterval(results, 1000);
+  var resultTimer = 2;
+  function results() {
+
+    resultTimer--;
+
+    if (resultTimer < 0) {
+      clearInterval(resultTimeInterval);
+      clearContainer("results");
+    }
+  }
 }
 
 function clearContainer(containerIdName) {
@@ -76,12 +95,8 @@ function clearContainer(containerIdName) {
       container.className = "answers";
       container.id = "answers-container";
       break;
-    case "answers":
+    default:
       container.innerHTML = "";
-      break;
-    case "question":
-      container.innerHTML = "";
-      break;
   }
 }
 
