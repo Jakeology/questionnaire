@@ -1,4 +1,4 @@
-var mainContainer = document.getElementById("quiz-container");
+var bodyContainer = document.getElementById("body-container");
 var questionContainer = document.getElementById("question-container");
 var resultsContainer = document.getElementById("results-container");
 
@@ -7,10 +7,14 @@ var startButton = document.querySelector("#start-btn");
 var questionIndex = 0;
 var score = 0;
 
+var takingQuiz = false;
+
 function buildQuiz() {
   //clearing question and answers sections when starting quiz
   clearContainer("question");
   clearContainer("answers");
+
+  takingQuiz = true;
 
   var questionContainerEl = document.createElement("h1");
   questionContainerEl.textContent = getRandomQuestion();
@@ -34,6 +38,8 @@ function terminateQuiz() {
   //clearing question and answers sections when terminating quiz
   clearContainer("question");
   clearContainer("answers");
+
+  takingQuiz = false;
 
   var questionText = document.createElement("h1");
   questionText.textContent = "The quiz is over!";
@@ -102,7 +108,7 @@ function displayResults(displayType) {
     element.style.color = "#a74848";
     element.className = "border-none";
     element.style.fontSize = "20px"
-    element.textContent = "Please enter a name.";
+    element.textContent = displayType;
   }
 
   resultsContainer.appendChild(element);
@@ -146,7 +152,7 @@ var resultTimeInterval;
 function startResultClearTimer() {
   clearInterval(resultTimeInterval);
   resultTimeInterval = setInterval(results, 1000);
-  var resultTimer = 2;
+  var resultTimer = 3;
   function results() {
 
     resultTimer--;
@@ -161,6 +167,11 @@ function startResultClearTimer() {
 
 function clearContainer(containerIdName) {
   var container = document.getElementById(containerIdName + "-container");
+
+  if(!container) {
+    return;
+  }
+
   switch (containerIdName) {
     case "info":
       container.innerHTML = "";
@@ -210,7 +221,7 @@ function buttonClick(event) {
 
     if(!input.value) {
       input.style.borderColor = "#a74848";
-      return displayResults("invalid");
+      return displayResults("Please enter a valid name.");
     }
 
     clearInterval(resultTimeInterval);
@@ -219,10 +230,18 @@ function buttonClick(event) {
     displayHighscores();
   }
 
+  if (targetEl.matches("#highscores-btn")) {
+    if(takingQuiz) {
+      return displayResults("You can't do that while taking the quiz.");
+    }
+    displayHighscores();
+  }
+
 }
 
 function displayHighscores() {
   clearContainer("question");
+  clearContainer("info");
   clearContainer("results");
 
   var highScores = loadHighscores();
@@ -328,4 +347,4 @@ var questionData = [
 ];
 
 startButton.onclick = startQuizTimer;
-mainContainer.addEventListener("click", buttonClick);
+bodyContainer.addEventListener("click", buttonClick);
