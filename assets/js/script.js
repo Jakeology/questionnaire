@@ -34,15 +34,17 @@ function buildQuiz() {
     createButton.id = i;
     createButton.textContent = answers[i];
     answersContainer.appendChild(createButton);
-    
+
     if (maxWidth < createButton.offsetWidth) {
       maxWidth = createButton.offsetWidth;
     }
-
   }
 
-  setButtonWidth(answersContainer);
-
+  for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
+    var answersButton = document.getElementById(i);
+    answersButton.style.width = parseInt(maxWidth + 10) + "px";
+    answersContainer.appendChild(answersButton);
+  }
 }
 
 function terminateQuiz() {
@@ -131,7 +133,7 @@ function shuffleAnswers(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-var timeLeft = 500;
+var timeLeft = 60;
 var timeInterval;
 
 function startQuizTimer() {
@@ -195,13 +197,7 @@ function clearContainer(containerIdName) {
   }
 }
 
-function setButtonWidth(mainContainer) {
-  for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
-    var answersButton = document.getElementById(i);
-    answersButton.style.width = parseInt(maxWidth + 10) + "px";
-    mainContainer.appendChild(answersButton);
-  }
-}
+function setButtonWidth(mainContainer) {}
 
 function buttonClick(event) {
   var targetEl = event.target;
@@ -216,12 +212,13 @@ function buttonClick(event) {
   //check to see if user clicked an answern button to a question
   if (targetEl.matches(".answers-btn")) {
     var getClickedAnswer = targetEl.innerHTML;
-    var getCorrectAnswer = questionData[questionIndex].answers[3];
+    var getCorrectAnswer = questionData[questionIndex].answers.pop();
 
     if (getClickedAnswer === getCorrectAnswer) {
       displayResults("correct");
     } else {
       displayResults("wrong");
+      timeLeft = timeLeft - 10;
     }
 
     //removes the questions and answers from the list so user doesn't get the same question twice.
@@ -361,7 +358,12 @@ function loadHighscores() {
 var questionData = [
   {
     question: "What does HTML stand for?",
-    answers: ["Header", "Hot Mail", "How to Make Lasagna", "Hyper Text Markup Language"],
+    answers: [
+      "Hyper Trainer Marking Language",
+      "Hyper Text Marketing Language",
+      "How to Make Lasagna",
+      "Hyper Text Markup Language",
+    ],
   },
   {
     question: "What is the difference between an opening tag and a closing tag?",
@@ -373,20 +375,34 @@ var questionData = [
     ],
   },
   {
-    question: "Question 3",
-    answers: ["7", "8", "9", "10"],
+    question: "<h1>Text</h1> is the correct way of making a header in HTML.",
+    answers: ["True", "False"],
   },
   {
-    question: "Question 4",
-    answers: ["11", "12", "13", "14"],
+    question: "Which of the following is a query language used to access and manipulate databases?",
+    answers: ["Java", "Python", "C++", "SQL"],
   },
   {
-    question: "Question 5",
-    answers: ["15", "16", "17", "18"],
+    question: "What does API stand for?",
+    answers: [
+      "App Programming Interface",
+      "Application Program Interface",
+      "Application Programming Internship",
+      "Application Programming Interface",
+    ],
   },
   {
-    question: "Question 6",
-    answers: ["19", "20", "21", "22"],
+    question: "Which of the following is the correct way of making a string in Java?",
+    answers: ['String "Text";', "String text = 'text';", 'String text = "text"', 'String text = "text";'],
+  },
+  {
+    question: "Which of the following is the correct way to make a for loop in JavaScript?",
+    answers: [
+      "for(var i; i = 10;){",
+      "for(var i = 0; i < 10;){",
+      "for(var i = 0, i < 10; i++){",
+      "for(var i = 0; i < 10; i++;){",
+    ],
   },
 ];
 
