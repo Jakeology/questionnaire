@@ -76,6 +76,9 @@ input {
 }
 
 .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   text-align: center;
   width: 60em;
   margin: 0 auto;
@@ -148,6 +151,43 @@ input {
 }
 
 .results h3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 15px;
   font-size: 40px;
+}
+
+@media screen and (max-width: 1440px) {
+
+  header{
+    width: 60%;
+  }
+
+}
+
+@media screen and (max-width: 980px) {
+
+  .answers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .questions h1 {
+    font-size: 60px;
+  }
+  
+  .questions h2 {
+    font-size: 36px;
+  }
+
+  .container {
+    width: 50%;
+  }
+
+  .results {
+    width: 100%;
+  }
+
 }
