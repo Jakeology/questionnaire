@@ -8,7 +8,6 @@ var questionIndex = 0;
 var score = 0;
 
 var takingQuiz = false;
-
 var viewHighscores = false;
 
 function buildQuiz() {
@@ -18,7 +17,7 @@ function buildQuiz() {
 
   takingQuiz = true;
 
-  var questionContainerEl = document.createElement("h1");
+  var questionContainerEl = document.createElement("h2");
   questionContainerEl.textContent = getRandomQuestion();
 
   questionContainer.appendChild(questionContainerEl);
@@ -26,14 +25,24 @@ function buildQuiz() {
   var answers = shuffleAnswers(getAnswers());
 
   var answersContainer = document.getElementById("answers-container");
-  
+
+  //TODO remove console.log
+  var maxWidth = 0;
   for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
     var createButton = document.createElement("button");
-    createButton.className = "btn";
-    createButton.id = "answer-btn";
+    createButton.className = "answers-btn";
+    createButton.id = i;
     createButton.textContent = answers[i];
     answersContainer.appendChild(createButton);
+    
+    if (maxWidth < createButton.offsetWidth) {
+      maxWidth = createButton.offsetWidth;
+    }
+
   }
+
+  setButtonWidth(answersContainer);
+
 }
 
 function terminateQuiz() {
@@ -48,7 +57,7 @@ function terminateQuiz() {
 
   questionContainer.appendChild(questionText);
 
-  var questionText = document.createElement("h2");
+  var questionText = document.createElement("h3");
   questionText.textContent = "Your score was " + score;
 
   questionContainer.appendChild(questionText);
@@ -89,7 +98,7 @@ function displayResults(displayType) {
   var results = document.getElementById("results");
   var element;
 
-  if(!results) {
+  if (!results) {
     var createH2El = document.createElement("h3");
     createH2El.id = "results";
     element = createH2El;
@@ -109,7 +118,7 @@ function displayResults(displayType) {
   } else {
     element.style.color = "#a74848";
     element.className = "border-none";
-    element.style.fontSize = "20px"
+    element.style.fontSize = "20px";
     element.textContent = displayType;
   }
 
@@ -122,16 +131,14 @@ function shuffleAnswers(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-var timeLeft = 5;
+var timeLeft = 500;
 var timeInterval;
 
 function startQuizTimer() {
-
   var getTimerEl = document.querySelector("#timer");
   getTimerEl.textContent = "Time: " + timeLeft;
 
   timeInterval = setInterval(function () {
-
     timeLeft--;
     getTimerEl.textContent = "Time: " + timeLeft;
 
@@ -139,7 +146,6 @@ function startQuizTimer() {
       clearInterval(timeInterval);
       return terminateQuiz();
     }
-
   }, 1000);
 }
 
@@ -156,7 +162,6 @@ function startResultClearTimer() {
   resultTimeInterval = setInterval(results, 1000);
   var resultTimer = 3;
   function results() {
-
     resultTimer--;
     console.log(resultTimer);
 
@@ -170,7 +175,7 @@ function startResultClearTimer() {
 function clearContainer(containerIdName) {
   var container = document.getElementById(containerIdName);
 
-  if(!container) {
+  if (!container) {
     return;
   }
 
@@ -190,6 +195,14 @@ function clearContainer(containerIdName) {
   }
 }
 
+function setButtonWidth(mainContainer) {
+  for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
+    var answersButton = document.getElementById(i);
+    answersButton.style.width = parseInt(maxWidth + 10) + "px";
+    mainContainer.appendChild(answersButton);
+  }
+}
+
 function buttonClick(event) {
   var targetEl = event.target;
 
@@ -201,7 +214,7 @@ function buttonClick(event) {
   }
 
   //check to see if user clicked an answern button to a question
-  if (targetEl.matches("#answer-btn")) {
+  if (targetEl.matches(".answers-btn")) {
     var getClickedAnswer = targetEl.innerHTML;
     var getCorrectAnswer = questionData[questionIndex].answers[3];
 
@@ -222,13 +235,14 @@ function buttonClick(event) {
   }
 
   if (targetEl.matches("#submit-btn")) {
-
     var input = document.getElementById("input");
 
-    if(!input.value) {
+    if (!input.value) {
       input.style.borderColor = "#a74848";
       return displayResults("Please enter a valid name.");
     }
+
+    //TODO check if players name is below a certain length
 
     clearInterval(resultTimeInterval);
     var getInput = input.value;
@@ -237,14 +251,13 @@ function buttonClick(event) {
   }
 
   if (targetEl.matches("#highscores-btn")) {
-    if(takingQuiz) {
+    if (takingQuiz) {
       return displayResults("You can't do that while taking the quiz.");
     }
-    
-    if(!viewHighscores) {
+
+    if (!viewHighscores) {
       displayHighscores("view");
     }
-
   }
 
   if (targetEl.matches("#retake-btn")) {
@@ -252,13 +265,12 @@ function buttonClick(event) {
   }
 
   if (targetEl.matches("#clear-btn")) {
-    if(localStorage.length <= 0) {
+    if (localStorage.length <= 0) {
       return displayResults("You can't clear the highscores when it's already empty!");
     }
     localStorage.clear();
     clearContainer("highscore-container");
   }
-
 }
 
 function displayHighscores(displayType) {
@@ -270,7 +282,7 @@ function displayHighscores(displayType) {
 
   var highScores = loadHighscores();
 
-  if(!highScores) {
+  if (!highScores) {
     return;
   }
 
@@ -278,7 +290,7 @@ function displayHighscores(displayType) {
 
   changeAnswerEl.className = "highscores";
   changeAnswerEl.id = "highscore-container";
-  
+
   var questionContainerEl = document.createElement("h1");
   questionContainerEl.textContent = "Highscores";
   questionContainer.appendChild(questionContainerEl);
@@ -287,12 +299,12 @@ function displayHighscores(displayType) {
 
   var place = 1;
 
-  for(var i = 0; i < highScores.length; i++) {
+  for (var i = 0; i < highScores.length; i++) {
     var scoreData = document.createElement("h2");
     var getUser = highScores[i].name;
     var getScore = highScores[i].score;
 
-    if(place < highScores.length) {
+    if (place < highScores.length) {
       scoreData.className = "highscores-border";
     } else {
       scoreData.className = "highscores-none";
@@ -307,9 +319,9 @@ function displayHighscores(displayType) {
   var retakeButton = document.createElement("button");
   retakeButton.className = "submit-btn";
   retakeButton.id = "retake-btn";
-  if(displayType === "submit") {
+  if (displayType === "submit") {
     retakeButton.textContent = "Retake Quiz";
-  } else if(displayType === "view") {
+  } else if (displayType === "view") {
     retakeButton.textContent = "Go back";
   }
 
@@ -321,7 +333,6 @@ function displayHighscores(displayType) {
   clearButton.textContent = "Clear Highscores";
 
   resultsContainer.appendChild(clearButton);
-
 }
 
 function saveHighscore(user, score) {
@@ -329,15 +340,14 @@ function saveHighscore(user, score) {
 }
 
 function loadHighscores() {
-
   if (!localStorage) {
     return;
   }
 
   var scores = [];
 
-  for(var i = 0; i < localStorage.length; i++) {
-    var key = localStorage.key(i)
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
     var scoreDataObj = {
       name: key,
       score: localStorage.getItem(key),
@@ -346,17 +356,21 @@ function loadHighscores() {
   }
 
   return scores;
-
 }
 
 var questionData = [
   {
-    question: "Question 1",
-    answers: ["1", "2", "3", "4"],
+    question: "What does HTML stand for?",
+    answers: ["Header", "Hot Mail", "How to Make Lasagna", "Hyper Text Markup Language"],
   },
   {
-    question: "Question 2",
-    answers: ["3", "4", "5", "6"],
+    question: "What is the difference between an opening tag and a closing tag?",
+    answers: [
+      "Opening tag has a / in front",
+      "Both tags have a / in front",
+      "There is no difference",
+      "Closing tag has a / in front",
+    ],
   },
   {
     question: "Question 3",
