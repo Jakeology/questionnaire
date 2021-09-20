@@ -80,7 +80,7 @@ input {
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
-  width: 60em;
+  width: 50em;
   margin: 0 auto;
 }
 
@@ -173,17 +173,13 @@ input {
     justify-content: center;
     flex-wrap: wrap;
   }
-
-  .questions h1 {
-    font-size: 60px;
-  }
   
   .questions h2 {
     font-size: 36px;
   }
 
   .container {
-    width: 50%;
+    width: 80%;
   }
 
   .results {

@@ -26,7 +26,6 @@ function buildQuiz() {
 
   var answersContainer = document.getElementById("answers-container");
 
-  //TODO remove console.log
   var maxWidth = 0;
   for (var i = 0; i < questionData[questionIndex].answers.length; i++) {
     var createButton = document.createElement("button");
@@ -165,7 +164,6 @@ function startResultClearTimer() {
   var resultTimer = 3;
   function results() {
     resultTimer--;
-    console.log(resultTimer);
 
     if (resultTimer <= 0) {
       clearInterval(resultTimeInterval);
@@ -217,6 +215,7 @@ function buttonClick(event) {
     if (getClickedAnswer === getCorrectAnswer) {
       displayResults("correct");
     } else {
+      
       displayResults("wrong");
       timeLeft = timeLeft - 10;
     }
@@ -231,6 +230,7 @@ function buttonClick(event) {
     buildQuiz();
   }
 
+  //TODO check if score is 0 and be able to not save the score
   if (targetEl.matches("#submit-btn")) {
     var input = document.getElementById("input");
 
@@ -239,10 +239,16 @@ function buttonClick(event) {
       return displayResults("Please enter a valid name.");
     }
 
-    //TODO check if players name is below a certain length
-
     clearInterval(resultTimeInterval);
     var getInput = input.value;
+    if (getInput.length < 3 || getInput.length > 16) {
+      return displayResults("Your name needs to be between 3-16 characters.");
+    }
+
+    if(score === 0) {
+      return displayResults("You can't save a score of 0. Next time get something better than a 0...");
+    }
+
     saveHighscore(getInput, score);
     displayHighscores("submit");
   }
@@ -396,12 +402,12 @@ var questionData = [
     answers: ['String "Text";', "String text = 'text';", 'String text = "text"', 'String text = "text";'],
   },
   {
-    question: "Which of the following is the correct way to make a for loop in JavaScript?",
+    question: "Choose the correct HTML tag for the largest heading.",
     answers: [
-      "for(var i; i = 10;){",
-      "for(var i = 0; i < 10;){",
-      "for(var i = 0, i < 10; i++){",
-      "for(var i = 0; i < 10; i++;){",
+      "Head",
+      "Heading",
+      "H6",
+      "H1",
     ],
   },
 ];
